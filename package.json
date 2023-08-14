@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "publishConfig": {
-    "@JuTaK97:registry": "https://npm.pkg.github.com"
+    "@jutak97:registry": "https://npm.pkg.github.com"
   }
 }
