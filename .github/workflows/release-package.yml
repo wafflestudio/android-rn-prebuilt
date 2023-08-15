@@ -13,10 +13,15 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+
       - name: Publish AAR to GitHub Packages
         run: |
           echo "//maven.pkg.github.com/JuTaK97/android-rn-prebuilt/:username=JuTaK97" > ~/.npmrc
-          echo "//maven.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
+          echo "//maven.pkg.github.com/:_authToken=${{ secrets.MAVEN_TOKEN }}" >> ~/.npmrc
           for aarFile in $(find . -name "*.aar"); do
             FILENAME=$(basename "$aarFile")
             ARTIFACT_ID="${FILENAME%.*}"
