@@ -2,7 +2,7 @@ name: Publish AAR to GitHub Packages
 on:
   push:
     paths:
-      - 'libs/*.aar'
+      - '**/*.aar'   # Specify the path pattern of AAR files
 
 jobs:
   publish:
@@ -16,10 +16,9 @@ jobs:
       - name: Publish AAR to GitHub Packages
         run: |
           echo "//maven.pkg.github.com/JuTaK97/android-rn-prebuilt/:username=JuTaK97" > ~/.npmrc
-          echo "//maven.pkg.github.com/:_authToken${{ secrets.GITHUB_TOKEN }}TOKEN" >> ~/.npmrc
+          echo "//maven.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" >> ~/.npmrc
           for aarFile in $(find . -name "*.aar"); do
             FILENAME=$(basename "$aarFile")
-            GROUP_ID="com/github/JuTaK97/android-rn-prebuilt"
             ARTIFACT_ID="${FILENAME%.*}"
-            mvn deploy:deploy-file -Dfile="$aarFile" -DrepositoryId=github -Durl=https://maven.pkg.github.com/JuTaK97/android-rn-prebuilt -DgroupId="$GROUP_ID" -DartifactId="$ARTIFACT_ID" -Dversion=1.0.0 -Dpackaging=aar
+            mvn deploy:deploy-file -Dfile="$aarFile" -DrepositoryId=github -Durl=https://maven.pkg.github.com/JuTaK97/android-rn-prebuilt -DgroupId=com.github.JuTaK97.androidrnprebuilt -DartifactId="$ARTIFACT_ID" -Dversion=1.0.0 -Dpackaging=aar
           done
