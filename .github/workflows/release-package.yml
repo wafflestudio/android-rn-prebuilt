@@ -13,11 +13,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-
       - name: Publish AAR to GitHub Packages
         run: |
           echo "//maven.pkg.github.com/JuTaK97/android-rn-prebuilt/:username=JuTaK97" > ~/.npmrc
@@ -25,5 +20,5 @@ jobs:
           for aarFile in $(find . -name "*.aar"); do
             FILENAME=$(basename "$aarFile")
             ARTIFACT_ID="${FILENAME%.*}"
-            mvn deploy:deploy-file -Dfile="$aarFile" -DrepositoryId=github -Durl=https://maven.pkg.github.com/JuTaK97/android-rn-prebuilt -DgroupId=com.github.JuTaK97.androidrnprebuilt -DartifactId="$ARTIFACT_ID" -Dversion=1.0.0 -Dpackaging=aar
+            mvn deploy:deploy-file -Dfile="$aarFile" -DrepositoryId=github -Durl=https://maven.pkg.github.com/JuTaK97/android-rn-prebuilt -DgroupId=com.github.JuTaK97.androidrnprebuilt -DartifactId="$ARTIFACT_ID" -Dversion=1.0.0 -Dpackaging=aar -DgeneratePom=false
           done
